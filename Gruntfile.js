@@ -8,6 +8,14 @@ module.exports = function(grunt){
         }
       }
     },
+    copy: {
+        files:{
+            expand: true,
+            src: ['js/**', 'css/**'],
+            dest: 'dist/',
+            filter: 'isFile'
+        }
+    },
     clean: ['dist','css'],
     hashres: {
       options: {
@@ -23,7 +31,7 @@ module.exports = function(grunt){
     targethtml: {
       options: {
         curlyTags: {
-          ver: '<%= grunt.template.today("HHyyyyddmmss") %>'
+          ver: '<%= grunt.template.today("yymmdd") %>'
         },
       },
       release:{
@@ -81,7 +89,8 @@ module.exports = function(grunt){
         options: {
           port: 8999,
           open: true,
-          host: 'localhost'
+          base: 'dist',
+          hosthost: 'localhost'
         }
       },
       release: {
@@ -97,6 +106,6 @@ module.exports = function(grunt){
 
   require('load-grunt-tasks')(grunt);
 
-  grunt.registerTask('default', ['clean', 'jshint', 'less', 'targethtml:dev', 'connect:dev', 'watch']);
+  grunt.registerTask('default', ['clean', 'jshint', 'less', 'targethtml:dev', 'copy', 'connect:dev', 'watch']);
   grunt.registerTask('release', ['clean', 'jshint', 'requirejs', 'less', 'cssmin', 'targethtml:release', 'hashres', 'connect:release']);
 };
